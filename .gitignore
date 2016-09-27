@@ -1,11 +1,11 @@
-**/*/target
-**/*/.idea
-**/*/.vertx
+target
+.idea
+.vertx
 *.class
 *.iml
 *.log
 *.log.*
 
-**/*/.classpath
-**/*/.settings
-**/*/.project
+.classpath
+.settings
+.project
