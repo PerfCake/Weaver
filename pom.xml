@@ -7,7 +7,7 @@
    <artifactId>weaver</artifactId>
    <packaging>jar</packaging>
    <version>1.0-SNAPSHOT</version>
-   <name>Thread Weaver - A sample HTTP service</name>
+   <name>Thread Weaver - An ill-behaved microservices emulator</name>
    <url>http://www.perfcake.org</url>
    <organization>
       <name>PerfCake Community</name>
@@ -56,7 +56,7 @@
       <!--Dependency versions-->
       <vertx.version>3.3.2</vertx.version>
       <junit.version>4.12</junit.version>
-      <perfcake.version>7.0-SNAPSHOT</perfcake.version>
+      <perfcake.version>7.0</perfcake.version>
       <jcommander.version>1.48</jcommander.version>
       <!--Plugin versions-->
       <maven.assembly.plugin.version>2.6</maven.assembly.plugin.version>
@@ -71,6 +71,7 @@
       <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
       <maven.surefire.report.plugin.version>2.19.1</maven.surefire.report.plugin.version>
       <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
+      <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
       <maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
 
       <weaver.threads>0</weaver.threads>
@@ -97,6 +98,22 @@
       <dependency>
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-1.2-api</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-jul</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
       </dependency>
       <dependency>
          <groupId>com.beust</groupId>
@@ -162,11 +179,38 @@
          </plugin>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven.source.plugin.version}</version>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                     <goal>jar-no-fork</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven.javadoc.plugin.version}</version>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
             <version>${maven.jar.plugin.version}</version>
             <configuration>
                <archive>
                   <manifest>
+                     <addClasspath>true</addClasspath>
                      <mainClass>org.perfcake.examples.weaver.Weaver</mainClass>
                   </manifest>
                </archive>

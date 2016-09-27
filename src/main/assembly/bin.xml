@@ -41,32 +41,18 @@
          <fileMode>0644</fileMode>
       </fileSet>
       <fileSet>
-         <directory>${basedir}/lib/plugins</directory>
-         <outputDirectory>lib/plugins</outputDirectory>
-         <includes>
-            <include>*.jar</include>
-            <include>README*</include>
-         </includes>
-         <fileMode>0644</fileMode>
-      </fileSet>
-      <fileSet>
-         <directory>${basedir}/src/main/resources</directory>
-         <outputDirectory>resources</outputDirectory>
-         <includes>
-            <include>keystores/*</include>
-            <include>messages/*</include>
-            <include>scenarios/*</include>
-            <include>schemas/*</include>
-            <include>google-charts/*</include>
-            <include>xslt/*</include>
-         </includes>
-         <fileMode>0644</fileMode>
-      </fileSet>
-      <fileSet>
          <directory>${basedir}/src/main/resources</directory>
          <outputDirectory/>
          <includes>
             <include>log4j2.xml</include>
+         </includes>
+         <fileMode>0644</fileMode>
+      </fileSet>
+      <fileSet>
+         <directory>${basedir}/src/main/resources/projects</directory>
+         <outputDirectory>projects</outputDirectory>
+         <includes>
+            <include>*.cfg</include>
          </includes>
          <fileMode>0644</fileMode>
       </fileSet>

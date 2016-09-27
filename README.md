@@ -1,6 +1,8 @@
 Thread Weaver
 =============
 
+_An ill-behaved microservices emulator for testing purposes._
+
 A sample HTTP based service which creates a pool of threads and serves the 
 incoming requests using various types of workers.
 
@@ -28,6 +30,30 @@ The number of threads can never be higher than the number of workers created.
 
 The application can be terminated by ^C / Ctrl+C.
 
+## Documentation
+
+Weaver is a tool for developers, the best documentation are the sources
+and JavaDoc. Anybody volunteering in creating a Wiki please let me know
+by logging an issue!
+
+## Running
+
+To obtain a binary distribution, use Maven as follows:
+
+```
+$ mvn package assembly:single -DskipTests
+```
+
+Now you can find the binary distribution in `target` directory in various compressed
+formats. Uncompress any of them in a directory and run with `bin/weaver.[sh|bat]` depending
+on your environment.
+
+There are sample configuration files in the `projects` directory.
+
+## Building
+
+When you want to work directly with source distribution you have the following options.
+
 To compile the application run:
 
 ```
@@ -39,3 +65,8 @@ To start weaver run:
 ```
 $ mvn exec:exec -Dweaver.config=<configuration file> [-Dweaver.threads=<thread number>] [-Dweaver.shuffle=<true|false>]
 ```
+
+## Source code
+
+Weaver follows git-flow approach with `devel` as the main development branch.
+In the `master` branch, there is always a stable version.

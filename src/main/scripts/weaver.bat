@@ -18,7 +18,7 @@
 @REM ----------------------------------------------------------------------------
 
 @REM ----------------------------------------------------------------------------
-@REM PerfCake Start Up Batch script
+@REM Weaver Start Up Batch script
 @REM
 @REM Required ENV vars:
 @REM JAVA_HOME - location of a JDK home dir
@@ -27,7 +27,7 @@
 
 @echo off
 
-echo NOTICE: To run this script in Windows PowerShell use: cmd /c perfcake.bat
+echo NOTICE: To run this script in Windows PowerShell use: cmd /c weaver.bat
 
 @REM set %HOME% to equivalent of $HOME
 if "%HOME%" == "" (set "HOME=%HOMEDRIVE%%HOMEPATH%")
@@ -60,34 +60,34 @@ echo.
 goto error
 
 :chkMHome
-if not "%PERFCAKE_HOME%"=="" goto valPCHome
+if not "%WEAVER_HOME%"=="" goto valPCHome
 
-if "%OS%"=="Windows_NT" SET "PERFCAKE_HOME=%~dp0.."
-if "%OS%"=="WINNT" SET "PERFCAKE_HOME=%~dp0.."
-if not "%PERFCAKE_HOME%"=="" goto valPCHome
+if "%OS%"=="Windows_NT" SET "WEAVER_HOME=%~dp0.."
+if "%OS%"=="WINNT" SET "WEAVER_HOME=%~dp0.."
+if not "%WEAVER_HOME%"=="" goto valPCHome
 
 echo.
-echo ERROR: PERFCAKE_HOME not found in your environment.
-echo Please set the PERFCAKE_HOME variable in your environment to match the
-echo location of the PerfCake installation
+echo ERROR: WEAVER_HOME not found in your environment.
+echo Please set the WEAVER_HOME variable in your environment to match the
+echo location of the Weaver installation
 echo.
 goto error
 
 :valPCHome
 
 :stripPCHome
-if not "_%PERFCAKE_HOME:~-1%"=="_\" goto checkPCBat
-set "PERFCAKE_HOME=%PERFCAKE_HOME:~0,-1%"
+if not "_%WEAVER_HOME:~-1%"=="_\" goto checkPCBat
+set "WEAVER_HOME=%WEAVER_HOME:~0,-1%"
 goto stripPCHome
 
 :checkPCBat
-if exist "%PERFCAKE_HOME%\bin\perfcake.bat" goto init
+if exist "%WEAVER_HOME%\bin\weaver.bat" goto init
 
 echo.
-echo ERROR: PERFCAKE_HOME is set to an invalid directory.
-echo PERFCAKE_HOME = "%PERFCAKE_HOME%"
-echo Please set the PERFCAKE_HOME variable in your environment to match the
-echo location of the PerfCake installation
+echo ERROR: WEAVER_HOME is set to an invalid directory.
+echo WEAVER_HOME = "%WEAVER_HOME%"
+echo Please set the WEAVER_HOME variable in your environment to match the
+echo location of the Weaver installation
 echo.
 goto error
 @REM ==== END VALIDATION ====
@@ -107,30 +107,30 @@ if NOT "%OS%"=="Windows_NT" goto Win9xArg
 if "%@eval[2+2]" == "4" goto 4NTArgs
 
 @REM -- Regular WinNT shell
-set PERFCAKE_CMD_LINE_ARGS=%*
+set WEAVER_CMD_LINE_ARGS=%*
 goto endInit
 
 @REM The 4NT Shell from jp software
 :4NTArgs
-set PERFCAKE_CMD_LINE_ARGS=%$
+set WEAVER_CMD_LINE_ARGS=%$
 goto endInit
 
 :Win9xArg
 @REM Slurp the command line arguments.  This loop allows for an unlimited number
 @REM of agruments (up to the command line limit, anyway).
-set PERFCAKE_CMD_LINE_ARGS=
+set WEAVER_CMD_LINE_ARGS=
 :Win9xApp
 if %1a==a goto endInit
-set PERFCAKE_CMD_LINE_ARGS=%PERFCAKE_CMD_LINE_ARGS% %1
+set WEAVER_CMD_LINE_ARGS=%WEAVER_CMD_LINE_ARGS% %1
 shift
 goto Win9xApp
 
 @REM Reaching here means variables are defined and arguments have been captured
 :endInit
-SET PERFCAKE_JAVA_EXE="%JAVA_HOME%\bin\java.exe"
+SET WEAVER_JAVA_EXE="%JAVA_HOME%\bin\java.exe"
 
 @REM Check Java version
-for /f tokens^=2-4^ delims^=.-_^" %%j in ('"%PERFCAKE_JAVA_EXE%" -version 2^>^&1') do (
+for /f tokens^=2-4^ delims^=.-_^" %%j in ('"%WEAVER_JAVA_EXE%" -version 2^>^&1') do (
   set jver=%%j%%k
   goto breakVer
 )
@@ -141,33 +141,33 @@ if %errorlevel% equ 0 (
   goto versionValid
 ) else (
   echo WARNING: Unable to detect Java version.
-  goto runPERFCAKE
+  goto runWEAVER
 )
 
 :versionValid
-if not %jver% LSS 18 goto runPERFCAKE
-echo Unsupported Java version. PerfCake requires Java 8 and higher.
+if not %jver% LSS 18 goto runWEAVER
+echo Unsupported Java version. Weaver requires Java 8 and higher.
 goto error
 
-@REM Start PerfCake
-:runPERFCAKE
-for /f "delims=" %%i in ('dir /s /b "%PERFCAKE_HOME%"\lib\perfcake*.jar') do set PERFCAKE_JAR=%%i && goto pcJarFound
+@REM Start Weaver
+:runWEAVER
+for /f "delims=" %%i in ('dir /s /b "%WEAVER_HOME%"\lib\weaver*.jar') do set WEAVER_JAR=%%i && goto pcJarFound
 :pcJarFound
-if not "%PERFCAKE_JAR%"=="" goto execPerfCake
-echo ERROR: could not find PerfCake jar file (%PERFCAKE_HOME%\lib\perfcake*.jar)
+if not "%WEAVER_JAR%"=="" goto execWeaver
+echo ERROR: could not find Weaver jar file (%WEAVER_HOME%\lib\weaver*.jar)
 goto error
 
-:execPerfCake
+:execWeaver
 @REM Check for debug parameter to add tools.jar -- will be removed in JDK 9
-set PERFCAKE_DEBUG=""
+set WEAVER_DEBUG=""
 for %%i in (%*) do (
-  if %%i=="-d" set PERFCAKE_DEBUG=";%JAVA_HOME%\lib"
-  if %%i=="--debug" set PERFCAKE_DEBUG=";%JAVA_HOME%\lib"
+  if %%i=="-d" set WEAVER_DEBUG=";%JAVA_HOME%\lib"
+  if %%i=="--debug" set WEAVER_DEBUG=";%JAVA_HOME%\lib"
 )
 
-cd "%PERFCAKE_HOME%"
+cd "%WEAVER_HOME%"
 
-%PERFCAKE_JAVA_EXE% -Dlog4j.configurationFile="file:///%PERFCAKE_HOME%\log4j2.xml" -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -Djava.ext.dirs="%JAVA_HOME%\lib\ext;%JAVA_HOME%\jre\lib\ext;%PERFCAKE_HOME%\lib\ext%PERFCAKE_DEBUG%" -jar "%PERFCAKE_JAR%" %PERFCAKE_CMD_LINE_ARGS%
+%WEAVER_JAVA_EXE% -Dlog4j.configurationFile="file:///%WEAVER_HOME%\log4j2.xml" -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -Djava.ext.dirs="%JAVA_HOME%\lib\ext;%JAVA_HOME%\jre\lib\ext;%WEAVER_HOME%\lib\ext%WEAVER_DEBUG%" -jar "%WEAVER_JAR%" %WEAVER_CMD_LINE_ARGS%
 if ERRORLEVEL 1 goto error
 goto end
 
@@ -183,8 +183,8 @@ if "%OS%"=="WINNT" goto endNT
 
 @REM For old DOS remove the set variables from ENV - we assume they were not set
 @REM before we started - at least we don't leave any baggage around
-set PERFCAKE_JAVA_EXE=
-set PERFCAKE_CMD_LINE_ARGS=
+set WEAVER_JAVA_EXE=
+set WEAVER_CMD_LINE_ARGS=
 goto postExec
 
 :endNT
@@ -192,9 +192,9 @@ goto postExec
 
 :postExec
 
-@REM pause the batch file if PERFCAKE_BATCH_PAUSE is set to 'on'
-if "%PERFCAKE_BATCH_PAUSE%" == "on" pause
+@REM pause the batch file if WEAVER_BATCH_PAUSE is set to 'on'
+if "%WEAVER_BATCH_PAUSE%" == "on" pause
 
-if "%PERFCAKE_TERMINATE_CMD%" == "on" exit %ERROR_CODE%
+if "%WEAVER_TERMINATE_CMD%" == "on" exit %ERROR_CODE%
 
 cmd /C exit /B %ERROR_CODE%

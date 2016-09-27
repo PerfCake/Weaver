@@ -19,7 +19,7 @@
 # ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------
-# PerfCake Start Up Batch script
+# Weaver Start Up Batch script
 #
 # Required ENV vars:
 # ------------------
@@ -75,7 +75,7 @@ if [ -z "$JAVA_HOME" ] ; then
   fi
 fi
 
-if [ -z "$PERFCAKE_HOME" ] ; then
+if [ -z "$WEAVER_HOME" ] ; then
   ## resolve links - $0 may be a link to maven's home
   PRG="$0"
 
@@ -92,18 +92,18 @@ if [ -z "$PERFCAKE_HOME" ] ; then
 
   saveddir=`pwd`
 
-  PERFCAKE_HOME=`dirname "$PRG"`/..
+  WEAVER_HOME=`dirname "$PRG"`/..
 
   # make it fully qualified
-  PERFCAKE_HOME=`cd "$PERFCAKE_HOME" && pwd`
+  WEAVER_HOME=`cd "$WEAVER_HOME" && pwd`
 
   cd "$saveddir"
 fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin ; then
-  [ -n "$PERFCAKE_HOME" ] &&
-    PERFCAKE_HOME=`cygpath --unix "$PERFCAKE_HOME"`
+  [ -n "$WEAVER_HOME" ] &&
+    WEAVER_HOME=`cygpath --unix "$WEAVER_HOME"`
   [ -n "$JAVA_HOME" ] &&
     JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
   [ -n "$CLASSPATH" ] &&
@@ -112,8 +112,8 @@ fi
 
 # For Migwn, ensure paths are in UNIX format before anything is touched
 if $mingw ; then
-  [ -n "$PERFCAKE_HOME" ] &&
-    PERFCAKE_HOME="`(cd "$PERFCAKE_HOME"; pwd)`"
+  [ -n "$WEAVER_HOME" ] &&
+    WEAVER_HOME="`(cd "$WEAVER_HOME"; pwd)`"
   [ -n "$JAVA_HOME" ] &&
     JAVA_HOME="`(cd "$JAVA_HOME"; pwd)`"
 fi
@@ -158,8 +158,8 @@ fi
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
-  [ -n "$PERFCAKE_HOME" ] &&
-    PERFCAKE_HOME=`cygpath --path --windows "$PERFCAKE_HOME"`
+  [ -n "$WEAVER_HOME" ] &&
+    WEAVER_HOME=`cygpath --path --windows "$WEAVER_HOME"`
   [ -n "$JAVA_HOME" ] &&
     JAVA_HOME=`cygpath --path --windows "$JAVA_HOME"`
   [ -n "$CLASSPATH" ] &&
@@ -171,7 +171,7 @@ if [ -n "$sedExecutable" ]; then
   javaVersion=`$JAVACMD -version 2>&1 | sed 's/.*version "\(.*\)\.\(.*\)\..*"/\1\2/; 1q'`
   if [[ $javaVersion =~ ^[1-9][0-9]$ ]]; then
      if [ "$javaVersion" -lt 18 ]; then
-        echo "Unsupported Java version. PerfCake requires Java 8 and higher."
+        echo "Unsupported Java version. Weaver requires Java 8 and higher."
         exit 2
      fi
   else
@@ -179,22 +179,15 @@ if [ -n "$sedExecutable" ]; then
   fi
 fi
 
-# Check for debug parameter
-PERFCAKE_DEBUG=""
-for x; do
-  if [ "$x" = "-d" ]; then PERFCAKE_DEBUG=":${JAVA_HOME}/lib"; break; fi
-  if [ "$x" = "--debug" ]; then PERFCAKE_DEBUG=":${JAVA_HOME}/lib"; break; fi
-done
+# Set the Weaver working directory
+cd "$WEAVER_HOME"
 
-# Set the PerfCake working directory
-cd "$PERFCAKE_HOME"
+WEAVER_JAR=$(find "$WEAVER_HOME/lib" -type f -regex '.*lib/weaver-[0-9][0-9]*\.[0-9][0-9]*.*\.jar')
 
-PERFCAKE_JAR=$(find "$PERFCAKE_HOME/lib" -type f -regex '.*lib/perfcake-[0-9][0-9]*\.[0-9][0-9]*.*\.jar')
-
-# Run PerfCake
+# Run Weaver
 exec "$JAVACMD" \
-  -Dlog4j.configurationFile="${PERFCAKE_HOME}/log4j2.xml" \
+  -Dlog4j.configurationFile="${WEAVER_HOME}/log4j2.xml" \
   -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager \
-  -Djava.ext.dirs="${JAVA_HOME}/lib/ext:${JAVA_HOME}/jre/lib/ext:${PERFCAKE_HOME}/lib/ext:${JAVA_HOME}/lib${PERFCAKE_DEBUG}" \
-  -jar "${PERFCAKE_JAR}" \
+  -Djava.ext.dirs="${JAVA_HOME}/lib/ext:${JAVA_HOME}/jre/lib/ext:${WEAVER_HOME}/lib/ext:${JAVA_HOME}/lib${WEAVER_DEBUG}" \
+  -jar "${WEAVER_JAR}" \
   "$@"
