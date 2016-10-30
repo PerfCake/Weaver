@@ -63,7 +63,7 @@ public final class Weaver {
    @Parameter(names = { "-c", "--config" }, description = "Configuration file", required = true)
    private String config = null;
 
-   @Parameter(names = { "--help" }, description = "Prints out command usage")
+   @Parameter(names = { "--help" }, description = "Prints out command usage", help = true)
    private boolean help = false;
 
    @Parameter(names = { "-p", "--port" }, description = "Network port to listen on")
@@ -93,9 +93,10 @@ public final class Weaver {
    public static void main(String[] args) throws IOException {
       final Weaver weaver = new Weaver();
       final JCommander jCommander = new JCommander(weaver, args);
+      jCommander.setProgramName("weaver");
 
       if (weaver.config == null || weaver.help) {
-         jCommander.usage("weaver");
+         jCommander.usage();
          System.exit(1);
       }
 

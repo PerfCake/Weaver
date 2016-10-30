@@ -6,7 +6,7 @@
    <groupId>org.perfcake.weaver</groupId>
    <artifactId>weaver</artifactId>
    <packaging>jar</packaging>
-   <version>1.0</version>
+   <version>1.1</version>
    <name>Thread Weaver - An ill-behaved microservices emulator</name>
    <url>http://www.perfcake.org</url>
    <organization>
@@ -18,7 +18,7 @@
       <url>https://github.com/PerfCake/Weaver</url>
       <connection>scm:git:git://github.com/PerfCake/Weaver.git</connection>
       <developerConnection>scm:git:git@github.com:PerfCake/weaver.git</developerConnection>
-      <tag>v1.0</tag>
+      <tag>v1.1</tag>
    </scm>
    <issueManagement>
       <system>GitHub</system>
