@@ -55,5 +55,4 @@ public class SwitchingWorkerTest {
       Assert.assertTrue(workers.get(2) instanceof SwitchingWorker);
       Assert.assertEquals(((SwitchingWorker) workers.get(2)).getWorkers().size(), 2);
    }
-
 }

@@ -95,11 +95,19 @@ public class SwitchingWorker implements Worker, MapConfigurable {
          clazz = clazz.contains(".") ? clazz : "org.perfcake.examples.weaver.worker." + clazz;
 
          try {
+            final Properties mapProperties = new Properties();
+            props.forEach((k, v) -> {
+               if (((String) k).matches("worker[0-9][0-9]*_.*")) {
+                  mapProperties.setProperty((String) k, (String) v);
+               }
+            });
+            mapProperties.forEach((k, v) -> props.remove(k));
+
             final Worker worker = (Worker) ObjectFactory.summonInstance(clazz, props);
 
             boolean add = true;
             if (worker instanceof MapConfigurable) {
-               add = ((MapConfigurable) worker).configure(props);
+               add = ((MapConfigurable) worker).configure(mapProperties);
             }
 
             if (add) {

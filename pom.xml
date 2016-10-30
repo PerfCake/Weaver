@@ -73,6 +73,7 @@
       <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
       <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
       <maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
+      <maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
 
       <weaver.threads>0</weaver.threads>
       <weaver.shuffle>false</weaver.shuffle>
@@ -283,4 +284,27 @@
          </plugin>
       </plugins>
    </build>
+   <profiles>
+     <profile>
+        <id>sign</id>
+        <build>
+           <plugins>
+              <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-gpg-plugin</artifactId>
+                 <version>${maven.gpg.plugin.version}</version>
+                 <executions>
+                    <execution>
+                       <id>sign-artifacts</id>
+                       <phase>verify</phase>
+                       <goals>
+                          <goal>sign</goal>
+                       </goals>
+                    </execution>
+                 </executions>
+              </plugin>
+           </plugins>
+        </build>
+     </profile>
+   </profiles>
 </project>

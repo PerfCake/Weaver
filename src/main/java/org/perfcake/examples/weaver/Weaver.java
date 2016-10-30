@@ -155,20 +155,24 @@ public final class Weaver {
          clazz = clazz.contains(".") ? clazz : "org.perfcake.examples.weaver.worker." + clazz;
          final String[] propertiesConfig = StringUtils.stripAll(StringUtils.strip(equalsSplit[1]).split(","));
          final Properties properties = new Properties();
+         final Properties mapProperties = new Properties();
          for (final String property : propertiesConfig) {
             final String[] keyValue = StringUtils.stripAll(property.split(":", 2));
-            properties.setProperty(keyValue[0], keyValue[1]);
+            if (keyValue[0].matches("worker[0-9][0-9]*_.*")) {
+               mapProperties.setProperty(keyValue[0], keyValue[1]);
+            } else {
+               properties.setProperty(keyValue[0], keyValue[1]);
+            }
          }
 
          try {
-            log.info("Summoning " + count + " instances of " + clazz + " with properties " + properties);
+            log.info("Summoning " + count + " instances of " + clazz + " with properties " + properties + " and map properties " + mapProperties);
             for (int i = 0; i < count; i++) {
                final Worker worker = (Worker) ObjectFactory.summonInstance(clazz, properties);
 
                boolean add = true;
                if (worker instanceof MapConfigurable) {
-                  log.info("Found auto-configurable worker, it is safe to ignore previous warnings about configuring workerX_ properties.");
-                  add = ((MapConfigurable) worker).configure(properties);
+                  add = ((MapConfigurable) worker).configure(mapProperties);
                }
 
                if (add) {
