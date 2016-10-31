@@ -7,7 +7,8 @@
    <artifactId>weaver</artifactId>
    <packaging>jar</packaging>
    <version>1.1</version>
-   <name>Thread Weaver - An ill-behaved microservices emulator</name>
+   <name>Thread Weaver</name>
+   <description>Thread Weaver - An ill-behaved microservices emulator</description>
    <url>http://www.perfcake.org</url>
    <organization>
       <name>PerfCake Community</name>
@@ -32,6 +33,16 @@
          <comments>A business-friendly OSS license</comments>
       </license>
    </licenses>
+   <developers>
+      <developer>
+         <name>Martin Večeřa</name>
+         <email>marvenec@gmail.com</email>
+      </developer>
+      <developer>
+         <name>Pavel Macík</name>
+         <email>pavel.macik@gmail.com</email>
+      </developer>
+   </developers>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
