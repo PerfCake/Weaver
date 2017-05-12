@@ -36,7 +36,7 @@ import java.util.Map;
  * @author <a href="mailto:marvenec@gmail.com">Martin Večeřa</a>
  * @author <a href="mailto:pavel.macik@gmail.com">Pavel Macík</a>
  */
-public class MemoryLeakWorker extends NormalWorker {
+public class MemoryLeakWorker extends DelayWorker {
 
    /**
     * Name of the HTTP header where a register key is specified.
@@ -50,10 +50,10 @@ public class MemoryLeakWorker extends NormalWorker {
 
    @Override
    public void work(final RoutingContext context) throws Exception {
-      super.work(context);
       final String registerKey = context.request().getHeader(getKeyHeader());
       final BadKey badKey = new BadKey(registerKey != null ? registerKey : "defaultRegister");
       register.put(badKey, context.getBodyAsString());
+      super.work(context);
    }
 
    /**
